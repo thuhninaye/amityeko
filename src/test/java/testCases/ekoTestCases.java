@@ -96,7 +96,7 @@ public class ekoTestCases
         //Click Send button
         createdGroupPage.clickSendBtn();
         //Get the latest message
-        result = createdGroupPage.getLatestMessage();
+        result = Common.cutMessage(createdGroupPage.getLatestMessage());
 
         assertAll(
                 () -> //Check the latest message

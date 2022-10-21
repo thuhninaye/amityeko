@@ -63,4 +63,17 @@ public class Common {
         // matched the ReGex
         return m.matches();
     }
+
+    public static String cutMessage(String message)
+    {
+       if(message.charAt(13) == ' ')
+        {
+            message = message.substring(0,message.length()-13);
+        }
+       else
+       {
+           message = message.substring(0,message.length()-14);
+       }
+       return message;
+    }
 }
