@@ -95,12 +95,13 @@ public class ekoTestCases
         createdGroupPage.enterLongMessage(longInputMessage);
         //Click Send button
         createdGroupPage.clickSendBtn();
+        wait.until(ExpectedConditions.presenceOfElementLocated(createdGroupPage.by_checkMessage));
         //Get the latest message
         result = Common.cutMessage(createdGroupPage.getLatestMessage());
 
         assertAll(
                 () -> //Check the latest message
-                        assertEquals(longInputMessage,result),
+                        assertEquals(longInputMessage, result),
                 () -> //Check Time is 12 hours format
                         assertTrue(Common.isValidTime(createdGroupPage.getTimeFromMessage()), "Time format is not 12 hours format."),
                 () -> //Check Failed icon
@@ -114,15 +115,28 @@ public class ekoTestCases
     @Order(3)
     public void testCase_three()
     {
-        createdGroupPage.clickGalleryIcon();
-        if(createdGroupPage.checkPermissionAllow())
-        {
-            createdGroupPage.clickPermissionAllowBtn();
-            createdGroupPage.clickPhotosAllowBtn();
-        }
-        String output = "Permission denied message, " + "'" + createdGroupPage.getPermissionDeniedMsg() + "'" + "is showing even though Permission Allow button is clicked.";
-        System.out.println(output);
-        assertEquals("", output);
+        //Click Sticker icon
+        createdGroupPage.clickStickerIcon();
+
+        //In order to avoid using looping in Automation, just simply writing one click for each sticker
+        //Click one of the stickers in the sticker box
+        createdGroupPage.clickSticker(1);
+        wait.until(ExpectedConditions.presenceOfElementLocated(createdGroupPage.by_stickerInChat));
+        //Click another one sticker
+        createdGroupPage.clickSticker(2);
+        wait.until(ExpectedConditions.presenceOfElementLocated(createdGroupPage.by_stickerInChat));
+        //Click next sticker
+        createdGroupPage.clickSticker(3);
+        wait.until(ExpectedConditions.presenceOfElementLocated(createdGroupPage.by_stickerInChat));
+
+        //Check stickers
+        assertAll(
+                //Check the stickers count
+                () -> assertEquals(3, createdGroupPage.getChatAreaStickerNum(),"Not all three stickers are observed."),
+                //Check the latest sticker
+                () -> assertTrue(createdGroupPage.checkLatestSticker(),"Latest sticker is not showing.")
+        );
+
     }
 
     @AfterAll

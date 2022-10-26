@@ -41,34 +41,37 @@ public class CreatedGroupPage extends PageFactoryBase
     @AndroidFindAll({
             @AndroidBy(id = "com.ekoapp.staging:id/message")
     })
-    private static List<AndroidElement> allMessageTxt;
+    private List<AndroidElement> allMessageTxt;
 
     @AndroidFindAll({
             @AndroidBy(id = "com.ekoapp.staging:id/time")
     })
-    private static List<AndroidElement> timeTxt;
+    private List<AndroidElement> timeTxt;
 
     @AndroidFindAll ({
             @AndroidBy(id = "com.ekoapp.staging:id/failed_icon")
     })
-    public static List<AndroidElement> element_failedIcon;
+    public List<AndroidElement> element_failedIcon;
 
     @AndroidFindBy (id = "com.ekoapp.staging:id/status_text")
     private AndroidElement messageStatus;
 
-    @AndroidFindBy (id = "com.ekoapp.staging:id/image_icon")
-    private AndroidElement galleryIcon;
+    @AndroidFindBy(id="com.ekoapp.staging:id/sticker_icon")
+    private AndroidElement stickerIcon;
 
-    @AndroidFindBy (id = "com.android.permissioncontroller:id/permission_allow_foreground_only_button")
-    private AndroidElement foregroundAllowBtn;
+    @AndroidFindAll({
+            @AndroidBy(id = "com.ekoapp.staging:id/view_sticker_item_image")
+    })
+    private List<AndroidElement> stickers;
 
-    @AndroidFindBy (id = "com.android.permissioncontroller:id/permission_allow_button")
-    private AndroidElement photosAllowBtn;
-
-    @AndroidFindBy (id = "com.ekoapp.staging:id/snackbar_text")
-    private AndroidElement permissionDeniedMsg;
+    @AndroidFindAll({
+            @AndroidBy(id="com.ekoapp.staging:id/sticker")
+    })
+    private List<AndroidElement> charAreaSticker;
 
     public By by_checkCreatedGroup = By.xpath("//android.widget.TextView[@text ='2 members']");
+    public By by_checkMessage = By.id("com.ekoapp.staging:id/message");
+    public By by_stickerInChat = By.id("com.ekoapp.staging:id/sticker");
 
 
     public String getGroupTitleName()
@@ -126,29 +129,23 @@ public class CreatedGroupPage extends PageFactoryBase
         return messageStatus.getText();
     }
 
-    public void clickGalleryIcon()
-    {
-        galleryIcon.click();
+    public void clickStickerIcon (){
+        stickerIcon.click();
     }
 
-    public Boolean checkPermissionAllow()
+    public void clickSticker (int index)
     {
-        return foregroundAllowBtn.isDisplayed();
+        stickers.get(index).click();
     }
 
-    public void clickPermissionAllowBtn()
+    public int getChatAreaStickerNum ()
     {
-        foregroundAllowBtn.click();
+        return charAreaSticker.size();
     }
 
-    public void clickPhotosAllowBtn()
+    public Boolean checkLatestSticker()
     {
-        photosAllowBtn.click();
-    }
-
-    public String getPermissionDeniedMsg()
-    {
-        return permissionDeniedMsg.getText();
+        return charAreaSticker.get(charAreaSticker.size()-1).isDisplayed();
     }
 
 }

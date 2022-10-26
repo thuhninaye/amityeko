@@ -64,6 +64,7 @@ public class Common {
         return m.matches();
     }
 
+    //To cut the message from the backward as it is including time
     public static String cutMessage(String message)
     {
        if(message.charAt(13) == ' ')
@@ -74,6 +75,7 @@ public class Common {
        {
            message = message.substring(0,message.length()-14);
        }
-       return message;
+       return message.trim();
     }
+
 }
